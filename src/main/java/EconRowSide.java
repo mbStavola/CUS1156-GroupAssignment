@@ -1,11 +1,11 @@
 /**
- * @author kevin
+ * @author kevin, matt, brian
  * @date 3/26/14
  */
-public class EconRowSide extends RowSide {
+public class EconRow extends Row {
 
-    public EconRowSide(char rowSide, int numOfSeats) {
-        super(rowSide, numOfSeats);
+    public EconRow(int numOfSeats) {
+        super(numOfSeats);
     }
 
     // This method needs to be here because econ rows have a center seat

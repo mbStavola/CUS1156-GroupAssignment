@@ -1,5 +1,5 @@
 /**
- * @author kevin
+ * @author kevin, matt, brian
  * @date 3/26/14
  */
 public class Airplane {
@@ -9,27 +9,18 @@ public class Airplane {
     public static final int SEATS_IN_ECON_ROW = 3;
     public static final int SEATS_IN_FIRST_CLASS_ROW = 2;
 
-    public static final char LEFT = 'L';
-    public static final char RIGHT = 'R';
-
-    RowSide[] firstClassRowSide;
-    RowSide[] econRowSide;
+    Row[] firstClassRow;
+    Row[] econRow;
 
 
     public Airplane() {
         // Multiply by 2 because we separated rows by side
-        this.firstClassRowSide = new RowSide[NUMBER_OF_FIRST_CLASS_ROWS*2];
-        this.econRowSide = new RowSide[NUMBER_OF_ECON_ROWS*2];
+        this.firstClassRow = new Row[NUMBER_OF_FIRST_CLASS_ROWS*2];
+        this.econRow = new Row[NUMBER_OF_ECON_ROWS*2];
 
-        for (int i = 0; i < this.firstClassRowSide.length; i++) {
-            if (i % 2 == 0) {
-                this.firstClassRowSide[i] = new FirstClassRowSide(LEFT, SEATS_IN_FIRST_CLASS_ROW);
-                this.econRowSide[i] = new EconRowSide(LEFT, SEATS_IN_ECON_ROW);
-            }
-            else {
-                this.firstClassRowSide[i] = new FirstClassRowSide(RIGHT, SEATS_IN_FIRST_CLASS_ROW);
-                this.econRowSide[i] = new EconRowSide(RIGHT, SEATS_IN_ECON_ROW);
-            }
+        for (int i = 0; i < this.firstClassRow.length; i++) {
+            this.firstClassRow[i] = new firstClassRow(SEATS_IN_FIRST_CLASS_ROW);
+            this.econRow[i] = new econRow(SEATS_IN_ECON_ROW);
         }
     }
 
@@ -38,35 +29,61 @@ public class Airplane {
     }
 
     public void searchSeats(int numberOfPassengers, boolean firstClass, int preference) {
+        boolean passengersSeated = false;
         if (preference < 0 || preference > 2){
             throw new IllegalArgumentException("Invalid seat preference");
         }
-        if (firstClass) {
-            if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_FIRST_CLASS_ROW){
-                throw new IllegalArgumentException("Invalid number of passengers");
-            }
-            for (RowSide f : firstClassRowSide) {
-                if (preference == 0){
-                    f.getStateOfWindowSeat();
-                }
-                else {
-
-                }
-            }
-        }
         else {
-            if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_ECON_ROW){
-                throw new IllegalArgumentException("Invalid number of passengers.");
-            }
-            if (preference == 0){
-
-            }
-            else if (preference == 1){
-
+            if (firstClass) {
+                if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_FIRST_CLASS_ROW){
+                    throw new IllegalArgumentException("Invalid number of passengers.");
+                }
             }
             else {
-
+                if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_ECON_ROW){
+                    throw new IllegalArgumentException("Invalid number of passengers.");
+                }
+            }
+            if(!passengersSeated){
+                System.out.println("Cannot book seats for class, number of passengers, and preference. Change a parameter and try again.")
             }
         }
+    }
+
+    public void printSeats{
+        for(int i = 0; i < firstClassRow.length; i++){
+            if(i % 2 == 0){
+                for(int j = 0; j < firstClassRow[i].length; j++){
+                    System.out.print(firstClassRow[i].getStateOfAisleSeat());
+                    System.out.println(firstClassRow[i].getStateOfWindowSeat());
+                }
+            }
+            else{
+                for(int j = 0; j < firstClassRow[i].length; j++){
+                    System.out.print(firstClassRow[i].getStateOfWindowSeat());  
+                    System.out.println(firstClassRow[i].getStateOfAisleSeat());  
+                }
+            }
+        }
+        for(int i = 0; i < econRow.length; i++){
+            if(i % 2 == 0){
+                for(int j = 0; j < econRow[i].length; j++){
+                    System.out.print(econRow[i].getStateOfAisleSeat());
+                    System.out.print(econRow[i].getStateOfCenterSeat());
+                    System.out.println(econRow[i].getStateOfWindowSeat());
+                }
+            }
+            else{
+                for(int j = 0; j < econRow[i].length; j++){
+                    System.out.print(econRow[i].getStateOfWindowSeat()); 
+                    System.out.print(econRow[i].getStateOfCenterSeat());
+                    System.out.println(econRow[i].getStateOfAisleSeat());  
+                }
+            }
+        }
+    }
+
+    public void quit(){
+        System.exit(0);
     }
 }
