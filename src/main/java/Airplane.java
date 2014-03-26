@@ -65,6 +65,7 @@ public class Airplane {
                 }
             }
         }
+        System.out.println();
         for(int i = 0; i < econRow.length; i++){
             if(i % 2 == 0){
                 for(int j = 0; j < econRow[i].length; j++){
