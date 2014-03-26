@@ -4,8 +4,6 @@
  */
 public class FirstClassRowSide extends RowSide {
 
-
-
     public FirstClassRowSide(char rowSide, int numOfSeats) {
         super(rowSide, numOfSeats);
     }

@@ -3,8 +3,8 @@
  * @date 3/26/14
  */
 public class RowSide {
-    boolean[] seats;
-    char rowSide;
+    protected boolean[] seats;
+    protected char rowSide;
 
 
     public RowSide(char rowSide, int numOfSeats) {
