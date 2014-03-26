@@ -9,18 +9,18 @@ public class Airplane {
     public static final int SEATS_IN_ECON_ROW = 3;
     public static final int SEATS_IN_FIRST_CLASS_ROW = 2;
 
-    Row[] firstClassRow;
-    Row[] econRow;
+    FirstClassRow[] firstClassRow;
+    EconRow[] econRow;
 
 
     public Airplane() {
         // Multiply by 2 because we separated rows by side
-        this.firstClassRow = new Row[NUMBER_OF_FIRST_CLASS_ROWS*2];
-        this.econRow = new Row[NUMBER_OF_ECON_ROWS*2];
+        this.firstClassRow = new FirstClassRow[NUMBER_OF_FIRST_CLASS_ROWS*2];
+        this.econRow = new EconRow[NUMBER_OF_ECON_ROWS*2];
 
         for (int i = 0; i < this.firstClassRow.length; i++) {
-            this.firstClassRow[i] = new firstClassRow(SEATS_IN_FIRST_CLASS_ROW);
-            this.econRow[i] = new econRow(SEATS_IN_ECON_ROW);
+            this.firstClassRow[i] = new FirstClassRow(SEATS_IN_FIRST_CLASS_ROW);
+            this.econRow[i] = new EconRow(SEATS_IN_ECON_ROW);
         }
     }
 

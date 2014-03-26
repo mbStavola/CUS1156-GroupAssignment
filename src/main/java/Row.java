@@ -4,7 +4,7 @@
  */
 public class Row {
     protected boolean[] seats;
-    protected isFull;
+    protected boolean isFull;
 
     public Row(int numOfSeats) {
         this.seats = new boolean[numOfSeats];
@@ -24,6 +24,6 @@ public class Row {
     }
 
     public void setSeatStatus(int index){
-        seats[index] = !seats[index]
+        seats[index] = !seats[index];
     }
 }
