@@ -38,6 +38,35 @@ public class Airplane {
     }
 
     public void searchSeats(int numberOfPassengers, boolean firstClass, int preference) {
+        if (preference < 0 || preference > 2){
+            throw new IllegalArgumentException("Invalid seat preference");
+        }
+        if (firstClass) {
+            if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_FIRST_CLASS_ROW){
+                throw new IllegalArgumentException("Invalid number of passengers");
+            }
+            for (RowSide f : firstClassRowSide) {
+                if (preference == 0){
+                    f.getStateOfWindowSeat();
+                }
+                else {
 
+                }
+            }
+        }
+        else {
+            if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_ECON_ROW){
+                throw new IllegalArgumentException("Invalid number of passengers.");
+            }
+            if (preference == 0){
+
+            }
+            else if (preference == 1){
+
+            }
+            else {
+
+            }
+        }
     }
 }
