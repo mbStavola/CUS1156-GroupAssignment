@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 /**
  * @author kevin, matt, brian
  * @date 3/26/14
@@ -29,29 +31,35 @@ public class Airplane {
     }
 
     public static void main(String[] args) {
-        Airplane malaysianAirlinesFlight370 = new Airplane(); // I am literally going to hell
-        malaysianAirlinesFlight370.printSeats();
+        SeatSelectionPrompt prompt = new SeatSelectionPrompt();
+        JFrame frame = new JFrame();
+        frame.add(prompt);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public void promptUserForPreferences() {
+
     }
 
     // TODO: Literally everything in this method
-    public void searchSeats(int numberOfPassengers, boolean firstClass, int preference) {
-        assert preference < 0 || preference > 2: "Invalid seat preference. Please enter 0 for window, 1 for center, or 2 for ";
-        if (preference < 0 || preference > 2){
-            throw new IllegalArgumentException("Invalid seat preference");
+    public void searchSeats(boolean firstClass, int numberOfPassengers, int preference) throws IllegalArgumentException {
+        // I love ternary operators.
+        // If statement returns true if the number of passengers and the preference given are both valid for the given class (economy vs first-class)
+        // If statement returns false if one of the parameters was invalid, and throws an exception
+        if (firstClass
+                ? ((numberOfPassengers <= SEATS_IN_FIRST_CLASS_SIDE && numberOfPassengers > 0) && (preference < SEATS_IN_FIRST_CLASS_SIDE && preference > 0))
+                : ((numberOfPassengers <= SEATS_IN_ECON_SIDE && numberOfPassengers > 0)) && (preference < SEATS_IN_ECON_SIDE && preference > 0)) {
+
+
+
         }
         else {
-            if (firstClass) {
-                if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_FIRST_CLASS_SIDE){
-                    throw new IllegalArgumentException("Invalid number of passengers.");
-                }
-            }
-            else {
-                if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_ECON_SIDE){
-                    throw new IllegalArgumentException("Invalid number of passengers.");
-                }
-            }
+            throw new IllegalArgumentException("You specified either an invalid number of passengers, or specified that you \"prefer\" a seat that does not exist. You specified that you wanted " + numberOfPassengers + " seats in " + (firstClass ? "first class" : "economy") + ", and that you wanted the seat at index " + preference);
         }
+        System.err.println();
     }
+
 
     // Prints the status of each thing
     public void printSeats() {
