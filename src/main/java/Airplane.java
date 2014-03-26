@@ -6,81 +6,71 @@ public class Airplane {
     public static final int NUMBER_OF_FIRST_CLASS_ROWS = 5;
     public static final int NUMBER_OF_ECON_ROWS = 30;
 
-    public static final int SEATS_IN_ECON_ROW = 3;
-    public static final int SEATS_IN_FIRST_CLASS_ROW = 2;
+    public static final int SEATS_IN_ECON_SIDE = 3;
+    public static final int SEATS_IN_FIRST_CLASS_SIDE = 2;
 
-    FirstClassRow[] firstClassRow;
-    EconRow[] econRow;
+    FirstClassRow[] firstClassRows;
+    EconRow[] econRows;
 
 
     public Airplane() {
-        // Multiply by 2 because we separated rows by side
-        this.firstClassRow = new FirstClassRow[NUMBER_OF_FIRST_CLASS_ROWS*2];
-        this.econRow = new EconRow[NUMBER_OF_ECON_ROWS*2];
+        // Each "row" is actually just one side of a physical row, so we need twice as many "row" objects here.
+        // Programmatically, there is no need to differentiate between a row on the left of the plane or on the right.
+        // Later, we can print these rows out, and the only thing we will have to do to differentiate between left and right sides will be to check if the row is even or odd
+        firstClassRows = new FirstClassRow[NUMBER_OF_FIRST_CLASS_ROWS*2];
+        econRows = new EconRow[NUMBER_OF_ECON_ROWS*2];
 
-        for (int i = 0; i < this.firstClassRow.length; i++) {
-            this.firstClassRow[i] = new FirstClassRow(SEATS_IN_FIRST_CLASS_ROW);
-            this.econRow[i] = new EconRow(SEATS_IN_ECON_ROW);
+        for (int i = 0; i < firstClassRows.length; i++) {
+            firstClassRows[i] = new FirstClassRow(SEATS_IN_FIRST_CLASS_SIDE);
+        }
+        for (int i = 0; i < econRows.length; i++) {
+            econRows[i] = new EconRow(SEATS_IN_ECON_SIDE);
         }
     }
 
     public static void main(String[] args) {
-
+        Airplane malaysianAirlinesFlight370 = new Airplane(); // I am literally going to hell
+        malaysianAirlinesFlight370.printSeats();
     }
 
+    // TODO: Literally everything in this method
     public void searchSeats(int numberOfPassengers, boolean firstClass, int preference) {
-        boolean passengersSeated = false;
         if (preference < 0 || preference > 2){
             throw new IllegalArgumentException("Invalid seat preference");
         }
         else {
             if (firstClass) {
-                if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_FIRST_CLASS_ROW){
+                if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_FIRST_CLASS_SIDE){
                     throw new IllegalArgumentException("Invalid number of passengers.");
                 }
             }
             else {
-                if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_ECON_ROW){
+                if (numberOfPassengers < 0 || numberOfPassengers > SEATS_IN_ECON_SIDE){
                     throw new IllegalArgumentException("Invalid number of passengers.");
                 }
-            }
-            if(!passengersSeated){
-                System.out.println("Cannot book seats for class, number of passengers, and preference. Change a parameter and try again.")
             }
         }
     }
 
-    public void printSeats{
-        for(int i = 0; i < firstClassRow.length; i++){
-            if(i % 2 == 0){
-                for(int j = 0; j < firstClassRow[i].length; j++){
-                    System.out.print(firstClassRow[i].getStateOfAisleSeat());
-                    System.out.println(firstClassRow[i].getStateOfWindowSeat());
-                }
+    // Prints the status of each thing
+    public void printSeats() {
+        String printFormat = "%-10s";
+        // For each row in the first-class section, print each seat's status
+        System.out.println("First-class seats: ");
+        for (FirstClassRow firstClassRow : firstClassRows) {
+            for (boolean seat : firstClassRow.getSeats()) {
+                System.out.format(printFormat, seat + " ");
             }
-            else{
-                for(int j = 0; j < firstClassRow[i].length; j++){
-                    System.out.print(firstClassRow[i].getStateOfWindowSeat());  
-                    System.out.println(firstClassRow[i].getStateOfAisleSeat());  
-                }
-            }
+            System.out.println();
         }
-        System.out.println();
-        for(int i = 0; i < econRow.length; i++){
-            if(i % 2 == 0){
-                for(int j = 0; j < econRow[i].length; j++){
-                    System.out.print(econRow[i].getStateOfAisleSeat());
-                    System.out.print(econRow[i].getStateOfCenterSeat());
-                    System.out.println(econRow[i].getStateOfWindowSeat());
-                }
+
+        // For each row in the economy section, print each seat's status
+        System.out.println("Economy seats: ");
+        for (EconRow econRow : econRows) {
+            for (boolean seat : econRow.getSeats()) {
+                System.out.format(printFormat, seat + " ");
             }
-            else{
-                for(int j = 0; j < econRow[i].length; j++){
-                    System.out.print(econRow[i].getStateOfWindowSeat()); 
-                    System.out.print(econRow[i].getStateOfCenterSeat());
-                    System.out.println(econRow[i].getStateOfAisleSeat());  
-                }
-            }
+            System.out.println();
         }
     }
 

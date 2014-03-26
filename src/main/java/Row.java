@@ -4,11 +4,9 @@
  */
 public class Row {
     protected boolean[] seats;
-    protected boolean isFull;
 
     public Row(int numOfSeats) {
         this.seats = new boolean[numOfSeats];
-        isFull = false;
     }
 
     public boolean getStateOfWindowSeat() {
