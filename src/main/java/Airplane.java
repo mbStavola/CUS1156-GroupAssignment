@@ -16,6 +16,14 @@ public class Airplane {
 
 
     public Airplane() {
+
+        // Make UI less ugly
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         // Each "row" is actually just one side of a physical row, so we need twice as many "row" objects here.
         // Programmatically, there is no need to differentiate between a row on the left of the plane or on the right.
         // Later, we can print these rows out, and the only thing we will have to do to differentiate between left and right sides will be to check if the row is even or odd
@@ -31,6 +39,7 @@ public class Airplane {
     }
 
     public static void main(String[] args) {
+        // Just a test. When you run this, you should see a JFrame with 2 radio buttons in it, and it should log to the console when you press a button.
         SeatSelectionPrompt prompt = new SeatSelectionPrompt();
         JFrame frame = new JFrame();
         frame.add(prompt);
@@ -38,11 +47,7 @@ public class Airplane {
         frame.setVisible(true);
     }
 
-    public void promptUserForPreferences() {
 
-    }
-
-    // TODO: Literally everything in this method
     public void searchSeats(boolean firstClass, int numberOfPassengers, int preference) throws IllegalArgumentException {
         // I love ternary operators.
         // If statement returns true if the number of passengers and the preference given are both valid for the given class (economy vs first-class)
@@ -51,7 +56,7 @@ public class Airplane {
                 ? ((numberOfPassengers <= SEATS_IN_FIRST_CLASS_SIDE && numberOfPassengers > 0) && (preference < SEATS_IN_FIRST_CLASS_SIDE && preference > 0))
                 : ((numberOfPassengers <= SEATS_IN_ECON_SIDE && numberOfPassengers > 0)) && (preference < SEATS_IN_ECON_SIDE && preference > 0)) {
 
-
+            // TODO: Put the actual searching algorithm here, because the code can only get to this point if every parameter passed was valid
 
         }
         else {
