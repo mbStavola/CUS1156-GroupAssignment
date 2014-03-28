@@ -30,7 +30,7 @@ if(cabin==0)
       System.out.println("2: Aisle seat");
       System.out.println("Enter a seating preference: ");
       pref = input.nextInt();
-      rich.setCoupleSeat();
+      poor.setCoupleSeat(pref);
       }
 else if(ppl==3){
 
