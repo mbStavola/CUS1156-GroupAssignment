@@ -8,7 +8,7 @@ public class ClassyCabin
 {
   boolean[] seat = new boolean[20];
 
-  public static void main(String[] args)
+  /*public static void main(String[] args)
   {
     Scanner userInput = new Scanner(System.in);
     ClassyCabin mine = new ClassyCabin();
@@ -24,7 +24,7 @@ public class ClassyCabin
 
     System.out.print(mine.printSeats());
 
-  }
+  }*/
 
   boolean setSingleSeat(int pref)
   {
@@ -39,12 +39,12 @@ public class ClassyCabin
 
   boolean setCoupleSeat()
   {
-    for(int i = 1;i < 20;i+=2)
-      if(!seat[i-1])
-        if(!seat[i])
+    for(int i = 0;i < 20;i+=2)  //no reason to start at 1...int i = 0. then seat+1 down there...ummm yes there is. if you were checking the lastnot her
+      if(!seat[i])
+        if(!seat[i+1])
         {
-          seat[i-1] = true;
           seat[i] = true;
+          seat[i+1] = true;
           return true;
         }
     return false;
@@ -55,7 +55,7 @@ public class ClassyCabin
     String seats = "";
 
     for(int i=0;i<20;i++)
-    {
+    {seats += " ";
       for(int j=0;j<2;j++,i++)
       {
         if(seat[i])
@@ -66,9 +66,9 @@ public class ClassyCabin
       i++;
 
       if(seat[i])
-        seats += "X";
+        seats += " X";
       else
-        seats += "O";
+        seats += " O";
 
       if(seat[i-1])
         seats += "X\n";
