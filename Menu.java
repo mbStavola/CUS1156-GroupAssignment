@@ -5,7 +5,7 @@ public class Menu{
     int seatPreference = 0;
     int passengers;
     int cabinChoice;
-    boolean foundSeat;
+    boolean foundSeat = false;
 
     FirstClass frontCabin = new FirstClass(4);  //Number of seats must be in multiples of 4 (Cannot have half a row!).
     Economy backCabin = new Economy(18);  //Number of seats must be in multiples of 6.
@@ -44,10 +44,10 @@ public class Menu{
         seatPreference = userInput.nextInt();
 
         if(passengers==1){
-          frontCabin.setSingleSeat(seatPreference);
+          foundSeat = frontCabin.setSingleSeat(seatPreference);
         }
         else if(passengers==2){
-          frontCabin.setCoupleSeat();  //Preference doesn't matter since there are a max of two seats together.
+          foundSeat = frontCabin.setCoupleSeat();  //Preference doesn't matter since there are a max of two seats together.
         }
         /*else{
           INVALID INPUT. USER FAILED.
@@ -57,7 +57,8 @@ public class Menu{
         INVALID INPUT. USER FAILED.
       }*/
 
-
+      if(!foundSeat)
+        System.out.println("No seat(s) matched your request.");
       System.out.println("\n"+frontCabin.printSeats()+backCabin.printSeats());
     }
   }

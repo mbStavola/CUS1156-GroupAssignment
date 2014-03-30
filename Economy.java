@@ -1,5 +1,4 @@
-public class Economy
-{
+public class Economy{
   boolean[] seat;
 
   public Economy(int numberOfSeats){
@@ -45,8 +44,7 @@ public class Economy
     for(int i = 0;i < seat.length;i+=3)
       if(!seat[i])
         if(!seat[i+1])
-          if(!seat[i+2])  //If all the seats are available, take them.
-          {
+          if(!seat[i+2]){  //If all the seats are available, take them.
             seat[i] = true;
             seat[i+1] = true;
             seat[i+2] = true;
