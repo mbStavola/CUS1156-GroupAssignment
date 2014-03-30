@@ -1,66 +1,64 @@
 import java.util.Scanner;
 
-public class Menu  //Eventually will have method to recall the menu but for now, just this.
-{
-  public static void main(String[] args)
-  {
-    int pref = 0;
-    int ppl;
-    int cabin;
+public class Menu{
+  public static void main(String[] args){
+    int seatPreference = 0;
+    int passengers;
+    int cabinChoice;
+    boolean foundSeat;
 
-boolean successOrFaIlUrE;
+    FirstClass frontCabin = new FirstClass(4);  //Number of seats must be in multiples of 4 (Cannot have half a row!).
+    Economy backCabin = new Economy(18);  //Number of seats must be in multiples of 6.
 
-//Remember, if 3, can't do first class.
-//Just follow guidlines of the program.
+    Scanner userInput = new Scanner(System.in);
 
-    ClassyCabin rich = new ClassyCabin();
-    CrappyCabin poor = new CrappyCabin();
-    Scanner input = new Scanner(System.in);
+    while(true){
+      System.out.print("0: Economy\n1: First Class\n\nEnter the class you want to travel with: ");
+      cabinChoice = userInput.nextInt();
 
-while(true){
-    System.out.print("Are you poor or a baller? 0 for poor. 1 for baller: ");
-    cabin = input.nextInt();
-    System.out.print("How many passengers are traveling? (Enter 1, 2, or 3: ");
-    ppl = input.nextInt();
+      if(cabinChoice==0){
+        System.out.print("Enter the number of passengers traveling together(1, 2, or 3): ");
+        passengers = userInput.nextInt();
 
-if(cabin==0)
-{    if(ppl==2){
-      System.out.println("0: Window seat");
-      System.out.println("1: Center seat");
-      System.out.println("2: Aisle seat");
-      System.out.println("Enter a seating preference: ");
-      pref = input.nextInt();
-      poor.setCoupleSeat(pref);
+        System.out.print("0: Window seat\n1: Center seat\n2: Aisle seat\n\nEnter a seating preference: ");
+        seatPreference = userInput.nextInt();
+
+        if(passengers==1){
+          foundSeat = backCabin.setSingleSeat(seatPreference);
+        }
+        else if(passengers==2){
+          foundSeat = backCabin.setCoupleSeat(seatPreference);
+        }
+        else if(passengers==3){
+          foundSeat = backCabin.setTripleSeat();  //Preference doesn't matter if 3 people are sitting next to each other.
+        }
+        /*else{
+          INVALID INPUT. USER FAILED.
+        }*/
       }
-else if(ppl==3){
+      else if(cabinChoice==1){
+        System.out.print("Enter the number of passengers traveling together(1 or 2): ");
+        passengers = userInput.nextInt();
 
-poor.setThirdWheel();}
-else{
-      System.out.println("0: Window seat");
-      System.out.println("1: Aisle seat");
-      System.out.println("Enter a seating preference: ");
-      pref = input.nextInt();
-poor.setSingleSeat(pref);
-}}
-else
-if(ppl == 1)
-{
-      System.out.println("0: Window seat");
-      System.out.println("1: Aisle seat");
-      System.out.println("Enter a seating preference: ");
-      pref = input.nextInt();
-rich.setSingleSeat(pref);}
-else if(ppl == 3){System.out.println("3 peeps?? ain't no time to be a baller!");
-poor.setThirdWheel();
-}else
-rich.setCoupleSeat();
+        System.out.print("0: Window seat\n1: Aisle seat\n\nEnter a seating preference: ");
+        seatPreference = userInput.nextInt();
+
+        if(passengers==1){
+          frontCabin.setSingleSeat(seatPreference);
+        }
+        else if(passengers==2){
+          frontCabin.setCoupleSeat();  //Preference doesn't matter since there are a max of two seats together.
+        }
+        /*else{
+          INVALID INPUT. USER FAILED.
+        }*/
+      }
+      /*else
+        INVALID INPUT. USER FAILED.
+      }*/
 
 
-System.out.print(rich.printSeats());
-System.out.print(poor.printSeats());
-}
-
-
+      System.out.println("\n"+frontCabin.printSeats()+backCabin.printSeats());
+    }
   }
-
 }
