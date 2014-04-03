@@ -13,7 +13,6 @@ public class SeatVisualizer extends JPanel {
         for (int i = 0; i < airplane.getFirstClassRows().length; i++) {
             if (i%2 == 0) {
                 wowILoveColors(airplane.getFirstClassRows()[i].getStateOfWindowSeat());
-                System.out.println("This seat status is " + airplane.getFirstClassRows()[i].getStateOfWindowSeat());
                 wowILoveColors(airplane.getFirstClassRows()[i].getStateOfAisleSeat());
             }
             this.add(new JButton(" ") {{this.setBackground(Color.GRAY);}});
@@ -21,6 +20,19 @@ public class SeatVisualizer extends JPanel {
             if (i%2 == 1) {
                 wowILoveColors(airplane.getFirstClassRows()[i].getStateOfAisleSeat());
                 wowILoveColors(airplane.getFirstClassRows()[i].getStateOfWindowSeat());
+            }
+        }
+
+        for (int i = 0; i < airplane.getEconRows().length; i++) {
+            if (i%2 == 0) {
+                wowILoveColors(airplane.getEconRows()[i].getStateOfWindowSeat());
+                wowILoveColors(airplane.getEconRows()[i].getStateofCenterSeat());
+                wowILoveColors(airplane.getEconRows()[i].getStateOfAisleSeat());
+            }
+            else {
+                wowILoveColors(airplane.getEconRows()[i].getStateOfAisleSeat());
+                wowILoveColors(airplane.getEconRows()[i].getStateofCenterSeat());
+                wowILoveColors(airplane.getEconRows()[i].getStateOfWindowSeat());
             }
         }
     }

@@ -40,47 +40,6 @@ public class Airplane {
 
 
 
-
-    // Prints the status of each thing
-    public void printSeats() {
-        String printFormat = "%-10s";
-
-        // For each row in the first-class section, print each seat's status
-        System.out.println("First-class seats: ");
-        for (int i = 0; i < firstClassRows.length; i++) {
-            if (i % 2 == 0) {
-                for (int j = 0; j < firstClassRows[i].getSeats().length; j++) {
-                    System.out.format(printFormat, firstClassRows[i].getSeats()[j]);
-                }
-                System.out.println();
-            }
-            else {
-                for (int j = firstClassRows[i].getSeats().length-1; j >= 0; j--) {
-                    System.out.format(printFormat, firstClassRows[i].getSeats()[j]);
-                }
-                System.out.println();
-            }
-        }
-
-        // For each row in the economy section, print each seat's status
-        System.out.println("Economy seats: ");
-        for (int i = 0; i < econRows.length; i++) {
-            if (i % 2 == 0) {
-                for (int j = 0; j < econRows[i].getSeats().length; j++) {
-                    System.out.format(printFormat, econRows[i].getSeats()[j]);
-                }
-                System.out.println();
-            }
-            else {
-                for (int j = econRows[i].getSeats().length-1; j >= 0; j--) {
-                    System.out.format(printFormat, econRows[i].getSeats()[j]);
-                }
-                System.out.println();
-            }
-        }
-
-    }
-
     public FirstClassRow[] getFirstClassRows() {
         return firstClassRows;
     }

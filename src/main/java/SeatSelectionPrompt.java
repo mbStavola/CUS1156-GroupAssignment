@@ -120,6 +120,9 @@ public class SeatSelectionPrompt extends JPanel {
         });
 
         submitButton.addActionListener(ae -> {
+            // Checks to make sure the number of seats you requested is the same as the number of preferences checked
+            // Also checks to make sure all requested seats are contiguous
+            // If valid, attempts to assign you a seat
             int numberRequested = 0;
             for (JRadioButton button : numberOfPassengersButtons) {
                 if (button.isSelected()) {
@@ -151,8 +154,32 @@ public class SeatSelectionPrompt extends JPanel {
         });
     }
 
-    public void assignSeats() {
+    public boolean searchForSeats(Airplane plane, boolean firstClass, int numberOfPassengers, boolean preferWindow, boolean preferCenter, boolean preferAisle) {
+        boolean[] preferences;
+        Row[] rows;
+        if (firstClass) {
+            preferences = new boolean[]{preferAisle, preferWindow};
+            rows = plane.getFirstClassRows();
+        }
+        else {
+            preferences = new boolean[]{preferAisle, preferCenter, preferWindow};
+            rows = plane.getEconRows();
+        }
 
+        for (int i = 0; i < rows.length; i++) {
+            boolean validRow = true;
+            for (int j = 0; j < preferences.length; j++) {
+                if (rows[i].seats[j] && preferences[j]) { // If this person wants to set this seat to true, but it's already set to true, then this won't work. Set this row's validity to false
+                    validRow = false;
+                }
+            }
+            if (validRow) { // TODO: GIVE THEM WHAT THEY WANT
+
+                return true;
+            }
+        }
+
+        return false; // TODO: YOU GET NOTHING
     }
 
     // Pass in a list of buttons and then whether you want each button to be enabled
@@ -162,4 +189,5 @@ public class SeatSelectionPrompt extends JPanel {
             listOfButtons.get(i).setSelected(false);
         }
     }
+
 }

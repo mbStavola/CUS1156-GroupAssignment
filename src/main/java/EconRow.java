@@ -13,4 +13,7 @@ public class EconRow extends Row {
         return seats[1];
     }
 
+    public void setCenterSeat() {
+        seats[1] = true;
+    }
 }

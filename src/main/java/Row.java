@@ -13,15 +13,21 @@ public class Row {
         return seats[0];
     }
 
+    public void setWindowSeat() {
+        seats[0] = true;
+    }
+
     public boolean getStateOfAisleSeat() {
         return seats[seats.length-1];
+    }
+
+    public void setAisleSeat() {
+        seats[seats.length - 1] = true;
     }
 
     public boolean[] getSeats(){
         return seats;
     }
 
-    public void setSeatStatus(int index){
-        seats[index] = !seats[index];
-    }
+
 }
