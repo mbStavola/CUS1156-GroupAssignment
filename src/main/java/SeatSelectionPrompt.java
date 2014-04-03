@@ -9,7 +9,7 @@ import java.util.List;
  * @date 3/26/14
  */
 public class SeatSelectionPrompt extends JPanel {
-    public SeatSelectionPrompt() throws HeadlessException {
+    public SeatSelectionPrompt(Airplane plane) throws HeadlessException {
 
         // Uses a vertically-laid out box layout
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -68,6 +68,9 @@ public class SeatSelectionPrompt extends JPanel {
         JButton submitButton = new JButton("Submit");
         this.add(submitButton);
 
+
+        JButton showSeatVisualizerButton = new JButton("Show seat visualizer");
+        this.add(showSeatVisualizerButton);
 
         // Item listeners for every button to do what they need to do
         classButtons.get(0).addItemListener(ae -> {
@@ -131,17 +134,24 @@ public class SeatSelectionPrompt extends JPanel {
                 }
             }
 
-            if (numberRequested == numberSelected) {
-                // TODO : This is where we actually put all the big stuff. The code here is what happens when we determine that the user has made a valid request
-                System.err.println("pls");
-                JOptionPane.showMessageDialog(null, "Yay, it didn't blow up.");
-            }
-            else {
-                System.err.println("wow");
+            if (classButtons.get(1).isSelected() && seatPreferenceButtons.get(0).isSelected() && !seatPreferenceButtons.get(1).isSelected() && seatPreferenceButtons.get(2).isSelected()) {
+                JOptionPane.showMessageDialog(null, "ERROR: You cannot select aisle and window, but not center, in economy. You must select contiguous seats.");
+            } else if (numberRequested != numberSelected) {
                 JOptionPane.showMessageDialog(null, "ERROR: You either checked off too few or too many seat position requests, based on the number of seats you requested");
+            } else {
+                // TODO : This is where we actually put all the big stuff. The code here is what happens when we determine that the user has made a valid request
             }
-
         });
+
+        showSeatVisualizerButton.addActionListener(ae -> {
+            JFrame frame = new JFrame("Seat Visualizer");
+            frame.add(new SeatVisualizer(plane));
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+
+    public void assignSeats() {
 
     }
 
