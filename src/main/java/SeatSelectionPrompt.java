@@ -165,7 +165,7 @@ public class SeatSelectionPrompt extends JPanel {
 
         showSeatVisualizerButton.addActionListener(ae -> {
             JFrame frame = new JFrame("Seat Visualizer");
-            frame.add(new SeatVisualizer(plane));
+            frame.add(new SeatVisualizer());
             frame.pack();
             frame.setVisible(true);
         });
@@ -207,6 +207,7 @@ public class SeatSelectionPrompt extends JPanel {
             }
         }
             // TODO literally everything
+        return false;
     }
 
     // Pass in a list of buttons and then whether you want each button to be enabled

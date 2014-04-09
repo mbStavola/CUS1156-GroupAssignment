@@ -7,6 +7,11 @@
     <groupId>SeatPlanner</groupId>
     <artifactId>SeatPlanner</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-
+    <dependencies>
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout-swing</artifactId>
+            <version>4.2</version>
+        </dependency>
+    </dependencies>
 </project>

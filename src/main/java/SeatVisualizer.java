@@ -13,18 +13,24 @@ FirstClass firstCabin = new FirstClass(numberSeats);
 String seats = firstCabin.printSeats();
 
     public SeatVisualizer() {
+        System.out.println(seats);
         this.setLayout(new GridLayout(0, 6));
 
 
 
         for (int i = 0; i < numberSeats; i++) {
-            if (seats.charAt(i) == 'X')
-                wowILoveColors(false);
-                else
-		wowILoveColors(true);
-            
-            this.add(new JButton(" ") {{this.setBackground(Color.GRAY);}});
-
+            if (seats.charAt(i) == 'O') {
+                wowILoveColors(Color.GREEN);
+            }
+            else if (seats.charAt(i) == 'X') {
+                wowILoveColors(Color.RED);
+            }
+            else if (seats.charAt(i) == ' ') {
+                wowILoveColors(Color.GRAY);
+            }
+            else {
+                wowILoveColors(Color.ORANGE);
+            }
            /* if (i%2 == 1) {
                 wowILoveColors(airplane.getFirstClassRows()[i].getStateOfAisleSeat());
                 wowILoveColors(airplane.getFirstClassRows()[i].getStateOfWindowSeat());
@@ -45,17 +51,10 @@ String seats = firstCabin.printSeats();
         }*/
     }
 
-    public void wowILoveColors(boolean seat) {
-        //Color thisColor;
-        if (seat) { // Seat is filled, use red
-            thisColor = Color.RED;
-        }
-        else {
-            thisColor = Color.GREEN;
-        }
+    public void wowILoveColors(Color colorOfSeat) {
         this.add(new JButton("") {{
             setOpaque(true);
-            setBackground(thisColor);
+            setBackground(colorOfSeat);
         }});
 
     }
