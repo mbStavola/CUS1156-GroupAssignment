@@ -140,7 +140,6 @@ public class SeatSelectionPrompt extends JPanel {
             });
         }
 
-        // TODO: Grey out the submit button in certain instances
         submitButton.addActionListener(ae -> {
             int classIndex = 0;
             for (int i = 0; i < classButtons.size(); i++) {
