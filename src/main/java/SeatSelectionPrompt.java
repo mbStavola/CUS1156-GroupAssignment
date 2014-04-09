@@ -52,16 +52,19 @@ public class SeatSelectionPrompt extends JPanel {
 
 
 
-        this.add(new JLabel("Please indicate your seating preferences. Only check off as many boxes as seats that you requested: "));
+        this.add(new JLabel("Please indicate your seating preferences: "));
         // Creates a group of buttons for the number of seats, and adds them to the panel
-        List<JCheckBox> seatPreferenceButtons = new ArrayList<JCheckBox>() {{
-            add(new JCheckBox("Aisle", false));
-            add(new JCheckBox("Center", false));
-            add(new JCheckBox("Window", false));
+        ButtonGroup seatPreferenceButtonGroup = new ButtonGroup();
+
+        List<JRadioButton> seatPreferenceButtons = new ArrayList<JRadioButton>() {{
+            add(new JRadioButton("Aisle", false));
+            add(new JRadioButton("Center", false));
+            add(new JRadioButton("Window", false));
         }};
 
-        for (JCheckBox button : seatPreferenceButtons) {
+        for (JRadioButton button : seatPreferenceButtons) {
             button.setEnabled(false);
+            seatPreferenceButtonGroup.add(button);
             this.add(button);
         }
 
@@ -103,8 +106,8 @@ public class SeatSelectionPrompt extends JPanel {
 
         numberOfPassengersButtons.get(1).addItemListener(ae -> {
             if (ae.getStateChange() == ItemEvent.SELECTED) {
-                if (classButtons.get(0).isSelected()) { // Two passengers in first class; enable aisle and window
-                    toggleButtonsInList(seatPreferenceButtons, true, false, true);
+                if (classButtons.get(0).isSelected()) { // Two passengers in first class; disable all buttons because we can infer that they want both seats in this aisle
+                    toggleButtonsInList(seatPreferenceButtons, false, false, false);
                 }
                 else { // Two passengers in economy; enable all buttons
                     toggleButtonsInList(seatPreferenceButtons, true, true, true);
@@ -117,37 +120,47 @@ public class SeatSelectionPrompt extends JPanel {
                 if (classButtons.get(0).isSelected()) { // Three passengers in first class; this is not a thing. We should never get here but just in case, disable everything
                     toggleButtonsInList(seatPreferenceButtons, false, false, false);
                 }
-                else { // Three passengers in economy; enable all buttons
-                    toggleButtonsInList(seatPreferenceButtons, true, true, true);
+                else { // Three passengers in economy; disable all buttons because we can infer that they want all 3 seats in this aisle
+                    toggleButtonsInList(seatPreferenceButtons, false, false, false);
                 }
             }
         });
 
+        // TODO: Grey out the submit button in certain instances
         submitButton.addActionListener(ae -> {
-            // Checks to make sure the number of seats you requested is the same as the number of preferences checked
-            // Also checks to make sure all requested seats are contiguous
-            // If valid, attempts to assign you a seat
-            int numberRequested = 0;
-            for (JRadioButton button : numberOfPassengersButtons) {
-                if (button.isSelected()) {
-                    numberRequested = Integer.parseInt(button.getText());
+            int classIndex = 0;
+            for (int i = 0; i < classButtons.size(); i++) {
+                if (classButtons.get(i).isSelected()) {
+                    classIndex = i;
                 }
             }
 
-            int numberSelected = 0;
-            for (JCheckBox button : seatPreferenceButtons) {
-                if (button.isSelected()) {
-                    numberSelected++;
+            int numberOfPassengersIndex = 0;
+            for (int i = 0; i < numberOfPassengersButtons.size(); i++) {
+                if (classButtons.get(i).isSelected()) {
+                    numberOfPassengersIndex = i;
                 }
             }
 
-            if (classButtons.get(1).isSelected() && seatPreferenceButtons.get(0).isSelected() && !seatPreferenceButtons.get(1).isSelected() && seatPreferenceButtons.get(2).isSelected()) {
-                JOptionPane.showMessageDialog(null, "ERROR: You cannot select aisle and window, but not center, in economy. You must select contiguous seats.");
-            } else if (numberRequested != numberSelected) {
-                JOptionPane.showMessageDialog(null, "ERROR: You either checked off too few or too many seat position requests, based on the number of seats you requested");
-            } else {
-                // TODO : This is where we actually put all the big stuff. The code here is what happens when we determine that the user has made a valid request
+            int seatPreferenceIndex = -1; // This is -1 by default because the user does not even select a seat in some cases
+            if (seatPreferenceButtons.get(2).isSelected()) {
+                seatPreferenceIndex = 0;
             }
+            else if (seatPreferenceButtons.get(1).isSelected()) {
+                if (classButtons.get(1).isSelected()) {
+                    seatPreferenceIndex = 1;
+                }
+            }
+            else {
+                if (classButtons.get(0).isSelected()) {
+                    seatPreferenceIndex = 1;
+                }
+                else {
+                    seatPreferenceIndex = 2;
+                }
+            }
+
+            searchForSeats(plane, classIndex, numberOfPassengersIndex, seatPreferenceIndex);
         });
 
         showSeatVisualizerButton.addActionListener(ae -> {
@@ -162,39 +175,28 @@ public class SeatSelectionPrompt extends JPanel {
         });
     }
 
-    public boolean searchForSeats(Airplane plane, boolean firstClass, int numberOfPassengers, boolean preferWindow, boolean preferCenter, boolean preferAisle) {
-        boolean[] preferences;
-        Row[] rows;
-        if (firstClass) {
-            preferences = new boolean[]{preferAisle, preferWindow};
-            rows = plane.getFirstClassRows();
-        }
-        else {
-            preferences = new boolean[]{preferAisle, preferCenter, preferWindow};
-            rows = plane.getEconRows();
-        }
+    // END OF BUTTON SETUP
 
-        for (int i = 0; i < rows.length; i++) {
-            boolean validRow = true;
-            for (int j = 0; j < preferences.length; j++) {
-                if (rows[i].seats[j] && preferences[j]) { // If this person wants to set this seat to true, but it's already set to true, then this won't work. Set this row's validity to false
-                    validRow = false;
+    // Search algorithm
+    public boolean searchForSeats(Airplane plane, int classIndex, int numberOfPassengersIndex, int seatPreferenceIndex) {
+        if (classIndex == 0 && numberOfPassengersIndex == 1) {
+            for (int i = seatPreferenceIndex; i < plane.getFirstClassRows().length * Airplane.SEATS_IN_FIRST_CLASS_SIDE; i += 2) { //Searches only for the preferred seat
+                int row = i/Airplane.SEATS_IN_FIRST_CLASS_SIDE;
+                int column = i%Airplane.SEATS_IN_FIRST_CLASS_SIDE;
+                if (!plane.getFirstClassRows()[row].getSeats()[column]) {
+                    plane.getFirstClassRows()[row].getSeats()[column] = true;
+                    return true;
                 }
-            }
-            if (validRow) { // TODO: GIVE THEM WHAT THEY WANT
-
-                return true;
-            }
+            return false;
         }
-
-        return false; // TODO: YOU GET NOTHING
+            // TODO literally everything
     }
 
     // Pass in a list of buttons and then whether you want each button to be enabled
     public void toggleButtonsInList (List<? extends AbstractButton> listOfButtons, boolean... eachButtonState) {
         for (int i = 0; i < listOfButtons.size(); i++) {
-            listOfButtons.get(i).setEnabled(eachButtonState[i]);
             listOfButtons.get(i).setSelected(false);
+            listOfButtons.get(i).setEnabled(eachButtonState[i]);
         }
     }
 
