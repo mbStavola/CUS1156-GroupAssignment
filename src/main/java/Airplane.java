@@ -1,5 +1,3 @@
-import javax.swing.*;
-
 /**
  * @author kevin, matt, brian
  * @date 3/26/14
@@ -16,13 +14,6 @@ public class Airplane {
 
 
     public Airplane() {
-
-        // Make UI less ugly
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
 
         // Each "row" is actually just one side of a physical row, so we need twice as many "row" objects here.
         // Programmatically, there is no need to differentiate between a row on the left of the plane or on the right.

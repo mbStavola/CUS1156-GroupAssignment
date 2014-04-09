@@ -26,6 +26,7 @@ public class SeatSelectionPrompt extends JPanel {
             add(new JRadioButton("Economy", false));
         }};
 
+
         for (JRadioButton button : classButtons) { // Adds these buttons to the panel and ButtonGroup
             classButtonGroup.add(button);
             this.add(button);
@@ -71,6 +72,9 @@ public class SeatSelectionPrompt extends JPanel {
 
         JButton showSeatVisualizerButton = new JButton("Show seat visualizer");
         this.add(showSeatVisualizerButton);
+
+        JButton quitButton = new JButton("Quit");
+        this.add(quitButton);
 
         // Item listeners for every button to do what they need to do
         classButtons.get(0).addItemListener(ae -> {
@@ -151,6 +155,10 @@ public class SeatSelectionPrompt extends JPanel {
             frame.add(new SeatVisualizer(plane));
             frame.pack();
             frame.setVisible(true);
+        });
+
+        quitButton.addActionListener(ae -> {
+            System.exit(0);
         });
     }
 
