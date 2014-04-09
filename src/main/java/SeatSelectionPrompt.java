@@ -179,15 +179,32 @@ public class SeatSelectionPrompt extends JPanel {
 
     // Search algorithm
     public boolean searchForSeats(Airplane plane, int classIndex, int numberOfPassengersIndex, int seatPreferenceIndex) {
-        if (classIndex == 0 && numberOfPassengersIndex == 1) {
-            for (int i = seatPreferenceIndex; i < plane.getFirstClassRows().length * Airplane.SEATS_IN_FIRST_CLASS_SIDE; i += 2) { //Searches only for the preferred seat
-                int row = i/Airplane.SEATS_IN_FIRST_CLASS_SIDE;
-                int column = i%Airplane.SEATS_IN_FIRST_CLASS_SIDE;
-                if (!plane.getFirstClassRows()[row].getSeats()[column]) {
-                    plane.getFirstClassRows()[row].getSeats()[column] = true;
-                    return true;
+        int row, column;
+        if (classIndex == 0){
+            if(numberOfPassengersIndex == 1) {
+                for (int i = seatPreferenceIndex; i < plane.getFirstClassRows().length * Airplane.SEATS_IN_FIRST_CLASS_SIDE; i += 2) { //Searches only for the preferred seat
+                    row = i / Airplane.SEATS_IN_FIRST_CLASS_SIDE;
+                    column = i % Airplane.SEATS_IN_FIRST_CLASS_SIDE;
+                    if (!plane.getFirstClassRows()[row].getSeats()[column]) {
+                        plane.getFirstClassRows()[row].getSeats()[column] = true;
+                        return true;
+                    }
                 }
-            return false;
+                return false;
+            }
+            else {
+                for(int i = 0;i < plane.getFirstClassRows().length * Airplane.SEATS_IN_FIRST_CLASS_SIDE;i+=2) {
+                    row = i / Airplane.SEATS_IN_FIRST_CLASS_SIDE;
+                    column = i % Airplane.SEATS_IN_FIRST_CLASS_SIDE;
+                    if (!plane.getFirstClassRows()[row].getSeats()[column])
+                        if (!plane.getFirstClassRows()[row].getSeats()[column + 1]) {  //Since there are only a max of two people sitting together, seat preference doesn't matter, so find the first available seats together
+                            plane.getFirstClassRows()[row].getSeats()[column] = true;
+                            plane.getFirstClassRows()[row].getSeats()[column + 1] = true;
+                            return true;
+                        }
+                }
+                return false;
+            }
         }
             // TODO literally everything
     }
