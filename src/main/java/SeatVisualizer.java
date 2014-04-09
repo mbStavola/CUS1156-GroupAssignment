@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 /**
@@ -7,55 +8,40 @@ import java.awt.*;
  */
 
 public class SeatVisualizer extends JPanel {
-Color thisColor;
-int numberSeats = 20;
-FirstClass firstCabin = new FirstClass(numberSeats);
-String seats = firstCabin.printSeats();
+    private final Border LINE_BORDER = BorderFactory.createLineBorder(Color.BLACK, 2);
+    String seats;
 
-    public SeatVisualizer() {
-        System.out.println(seats);
-        this.setLayout(new GridLayout(0, 6));
+    public SeatVisualizer(Airplane plane) {
+        this.setLayout(new GridLayout(0, 7));
 
+        seats = (plane.firstClassCabin.printSeats() + plane.econCabin.printSeats()).replaceAll("\\n", "");
 
 
-        for (int i = 0; i < numberSeats; i++) {
+        for (int i = 0; i < seats.length(); i++) {
+            final Color thisSeatColor;
+            String thisSeatName = "";
             if (seats.charAt(i) == 'O') {
-                wowILoveColors(Color.GREEN);
+                thisSeatColor = Color.GREEN;
+                thisSeatName = " open ";
             }
             else if (seats.charAt(i) == 'X') {
-                wowILoveColors(Color.RED);
+                thisSeatColor = Color.RED;
+                thisSeatName = " taken ";
             }
             else if (seats.charAt(i) == ' ') {
-                wowILoveColors(Color.GRAY);
+                thisSeatColor = Color.LIGHT_GRAY;
             }
             else {
-                wowILoveColors(Color.ORANGE);
+                thisSeatColor = Color.MAGENTA;
             }
-           /* if (i%2 == 1) {
-                wowILoveColors(airplane.getFirstClassRows()[i].getStateOfAisleSeat());
-                wowILoveColors(airplane.getFirstClassRows()[i].getStateOfWindowSeat());
-            }*/
+
+            this.add(new JLabel(thisSeatName) {{
+                setOpaque(true);
+                setBackground(thisSeatColor);
+                setBorder(LINE_BORDER);
+                setFont(new Font("sans-serif", Font.PLAIN, 30));
+            }});
+
         }
-/*
-        for (int i = 0; i < airplane.getEconRows().length; i++) {
-            if (i%2 == 0) {
-                wowILoveColors(airplane.getEconRows()[i].getStateOfWindowSeat());
-                wowILoveColors(airplane.getEconRows()[i].getStateofCenterSeat());
-                wowILoveColors(airplane.getEconRows()[i].getStateOfAisleSeat());
-            }
-            else {
-                wowILoveColors(airplane.getEconRows()[i].getStateOfAisleSeat());
-                wowILoveColors(airplane.getEconRows()[i].getStateofCenterSeat());
-                wowILoveColors(airplane.getEconRows()[i].getStateOfWindowSeat());
-            }
-        }*/
-    }
-
-    public void wowILoveColors(Color colorOfSeat) {
-        this.add(new JButton("") {{
-            setOpaque(true);
-            setBackground(colorOfSeat);
-        }});
-
     }
 }

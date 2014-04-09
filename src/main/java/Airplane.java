@@ -9,41 +9,41 @@ public class Airplane {
     public static final int SEATS_IN_ECON_SIDE = 3;
     public static final int SEATS_IN_FIRST_CLASS_SIDE = 2;
 
-    FirstClassRow[] firstClassRows;
-    EconRow[] econRows;
+
+    FirstClass firstClassCabin;
+    Economy econCabin;
+
 
 
     public Airplane() {
+        firstClassCabin = new FirstClass(NUMBER_OF_FIRST_CLASS_ROWS * SEATS_IN_FIRST_CLASS_SIDE * 2);
+        econCabin = new Economy(NUMBER_OF_ECON_ROWS * SEATS_IN_ECON_SIDE * 2);
+    }
 
-        // Each "row" is actually just one side of a physical row, so we need twice as many "row" objects here.
-        // Programmatically, there is no need to differentiate between a row on the left of the plane or on the right.
-        // Later, we can print these rows out, and the only thing we will have to do to differentiate between left and right sides will be to check if the row is even or odd
-        firstClassRows = new FirstClassRow[NUMBER_OF_FIRST_CLASS_ROWS*2];
-        econRows = new EconRow[NUMBER_OF_ECON_ROWS*2];
-
-        for (int i = 0; i < firstClassRows.length; i++) {
-            firstClassRows[i] = new FirstClassRow(SEATS_IN_FIRST_CLASS_SIDE);
+    public boolean searchForSeats(int classIndex, int numberOfSeatsIndex, int seatPreferenceIndex) {
+        if (classIndex == 0) { // If first-class
+            if (numberOfSeatsIndex == 0) { // If first-class and 1 seat
+                return firstClassCabin.setSingleSeat(seatPreferenceIndex);
+            }
+            else if (numberOfSeatsIndex == 1) { // If first-class and 2 seats
+                return firstClassCabin.setCoupleSeat();
+            }
         }
-        for (int i = 0; i < econRows.length; i++) {
-            econRows[i] = new EconRow(SEATS_IN_ECON_SIDE);
+        else if (classIndex == 1) { // If economy-class
+            if (numberOfSeatsIndex == 0) { // If economy and 1 seat
+                return econCabin.setSingleSeat(seatPreferenceIndex);
+            }
+            else if (numberOfSeatsIndex == 1) { // If economy and 2 seats
+                return econCabin.setCoupleSeat(seatPreferenceIndex);
+            }
+            else if (numberOfSeatsIndex == 2) {
+                return econCabin.setTripleSeat();
+            }
         }
+        return false;
     }
 
+    public void updateSeatVisualizer() {
 
-
-    public FirstClassRow[] getFirstClassRows() {
-        return firstClassRows;
-    }
-
-    public void setFirstClassRows(FirstClassRow[] firstClassRows) {
-        this.firstClassRows = firstClassRows;
-    }
-
-    public EconRow[] getEconRows() {
-        return econRows;
-    }
-
-    public void setEconRows(EconRow[] econRows) {
-        this.econRows = econRows;
     }
 }

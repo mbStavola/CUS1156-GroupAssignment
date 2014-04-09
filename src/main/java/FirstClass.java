@@ -45,9 +45,9 @@ public class FirstClass{
         seats += " O";
 
       if(seat[i-1])  //This reads the previous element i the array to make the string (WA AW) now the elements are in order
-        seats += "X\n";
+        seats += "X \n";
       else
-        seats += "O\n";
+        seats += "O \n";
     }
     return seats;
   }

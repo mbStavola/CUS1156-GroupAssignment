@@ -5,9 +5,6 @@ import javax.swing.*;
  * @date 4/3/14
  */
 public class SeatPlanner {
-
-
-
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

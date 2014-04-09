@@ -12,7 +12,7 @@ public class SeatSelectionPrompt extends JPanel {
     public SeatSelectionPrompt(Airplane plane) throws HeadlessException {
 
         // Uses a vertically-laid out box layout
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new GridLayout(0,1));
 
 
 
@@ -70,6 +70,7 @@ public class SeatSelectionPrompt extends JPanel {
 
 
         JButton submitButton = new JButton("Submit");
+        submitButton.setEnabled(false);
         this.add(submitButton);
 
 
@@ -84,6 +85,9 @@ public class SeatSelectionPrompt extends JPanel {
             if (ae.getStateChange() == ItemEvent.SELECTED) { // If we selected "First Class"...
                 toggleButtonsInList(numberOfPassengersButtons, true, true, false); // Enable just 1 and 2 seats as options. Disable 3 seats
                 toggleButtonsInList(seatPreferenceButtons, false, false, false); // Disable all seat preferences just to be safe
+            }
+            if (numberOfPassengersButtons.get(2).isSelected()) {
+                submitButton.setEnabled(false);
             }
         });
         classButtons.get(1).addItemListener(ae -> { // Economy button
@@ -108,6 +112,7 @@ public class SeatSelectionPrompt extends JPanel {
             if (ae.getStateChange() == ItemEvent.SELECTED) {
                 if (classButtons.get(0).isSelected()) { // Two passengers in first class; disable all buttons because we can infer that they want both seats in this aisle
                     toggleButtonsInList(seatPreferenceButtons, false, false, false);
+                    submitButton.setEnabled(true);
                 }
                 else { // Two passengers in economy; enable all buttons
                     toggleButtonsInList(seatPreferenceButtons, true, true, true);
@@ -122,9 +127,18 @@ public class SeatSelectionPrompt extends JPanel {
                 }
                 else { // Three passengers in economy; disable all buttons because we can infer that they want all 3 seats in this aisle
                     toggleButtonsInList(seatPreferenceButtons, false, false, false);
+                    submitButton.setEnabled(true);
                 }
             }
         });
+
+        for (JRadioButton seatPreferenceButton : seatPreferenceButtons) {
+            seatPreferenceButton.addItemListener(ae -> {
+                if (ae.getStateChange() == ItemEvent.SELECTED) {
+                    submitButton.setEnabled(true);
+                }
+            });
+        }
 
         // TODO: Grey out the submit button in certain instances
         submitButton.addActionListener(ae -> {
@@ -137,7 +151,7 @@ public class SeatSelectionPrompt extends JPanel {
 
             int numberOfPassengersIndex = 0;
             for (int i = 0; i < numberOfPassengersButtons.size(); i++) {
-                if (classButtons.get(i).isSelected()) {
+                if (numberOfPassengersButtons.get(i).isSelected()) {
                     numberOfPassengersIndex = i;
                 }
             }
@@ -159,13 +173,21 @@ public class SeatSelectionPrompt extends JPanel {
                     seatPreferenceIndex = 2;
                 }
             }
+            if (plane.searchForSeats(classIndex, numberOfPassengersIndex, seatPreferenceIndex)) {
+                JOptionPane.showMessageDialog(null, "Your seats have been successfully booked!");
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "There are no more seats that match your requirements");
+            }
 
-            searchForSeats(plane, classIndex, numberOfPassengersIndex, seatPreferenceIndex);
+            toggleButtonsInList(seatPreferenceButtons, false, false, false);
+            toggleButtonsInList(numberOfPassengersButtons, false, false, false);
+            submitButton.setEnabled(false);
         });
 
         showSeatVisualizerButton.addActionListener(ae -> {
             JFrame frame = new JFrame("Seat Visualizer");
-            frame.add(new SeatVisualizer());
+            frame.add(new SeatVisualizer(plane));
             frame.pack();
             frame.setVisible(true);
         });
@@ -175,40 +197,6 @@ public class SeatSelectionPrompt extends JPanel {
         });
     }
 
-    // END OF BUTTON SETUP
-
-    // Search algorithm
-    public boolean searchForSeats(Airplane plane, int classIndex, int numberOfPassengersIndex, int seatPreferenceIndex) {
-        int row, column;
-        if (classIndex == 0){
-            if(numberOfPassengersIndex == 1) {
-                for (int i = seatPreferenceIndex; i < plane.getFirstClassRows().length * Airplane.SEATS_IN_FIRST_CLASS_SIDE; i += 2) { //Searches only for the preferred seat
-                    row = i / Airplane.SEATS_IN_FIRST_CLASS_SIDE;
-                    column = i % Airplane.SEATS_IN_FIRST_CLASS_SIDE;
-                    if (!plane.getFirstClassRows()[row].getSeats()[column]) {
-                        plane.getFirstClassRows()[row].getSeats()[column] = true;
-                        return true;
-                    }
-                }
-                return false;
-            }
-            else {
-                for(int i = 0;i < plane.getFirstClassRows().length * Airplane.SEATS_IN_FIRST_CLASS_SIDE;i+=2) {
-                    row = i / Airplane.SEATS_IN_FIRST_CLASS_SIDE;
-                    column = i % Airplane.SEATS_IN_FIRST_CLASS_SIDE;
-                    if (!plane.getFirstClassRows()[row].getSeats()[column])
-                        if (!plane.getFirstClassRows()[row].getSeats()[column + 1]) {  //Since there are only a max of two people sitting together, seat preference doesn't matter, so find the first available seats together
-                            plane.getFirstClassRows()[row].getSeats()[column] = true;
-                            plane.getFirstClassRows()[row].getSeats()[column + 1] = true;
-                            return true;
-                        }
-                }
-                return false;
-            }
-        }
-            // TODO literally everything
-        return false;
-    }
 
     // Pass in a list of buttons and then whether you want each button to be enabled
     public void toggleButtonsInList (List<? extends AbstractButton> listOfButtons, boolean... eachButtonState) {
