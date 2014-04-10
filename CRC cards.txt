@@ -1,0 +1,101 @@
++––––––––––––––––––––––––––––––––––––––––––––––––––––––+
+|                       SeatPlanner                    |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+|                           |                          |
+| - Main method             |   - Airplane             |
+|                           |                          |
+| - Creates instances of    |   - SeatSelectionPrompt  |
+|   other classes           |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+
++––––––––––––––––––––––––––––––––––––––––––––––––––––––+
+|                SeatSelectionPrompt                   |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+|                           |                          |
+|                           |                          |
+|  - Shows a GUI that       |   - Airplane             |
+|    allows the user to     |                          |
+|    interact with the      |   - SeatVisualizer       |
+|    program to select      |                          |
+|    their desired seats    |                          |
+|                           |                          |
+|  - Submits user choices   |                          |
+|    to the search function |                          |
+|                           |                          |
+|                           |                          |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+
++––––––––––––––––––––––––––––––––––––––––––––––––––––––+
+|                   SeatVisualizer                     |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+|                           |                          |
+|                           |                          |
+|  - Display a visual       |  - Airplane              |
+|    representation of      |                          |
+|    the airplane cabin,    |                          |
+|    including which seats  |                          |
+|    are filled and vacant  |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+
++––––––––––––––––––––––––––––––––––––––––––––––––––––––+
+|                        Airplane                      |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+|                           |                          |
+| - Holds the cabins for    |                          |
+|   first class and economy |  - FirstClass            |
+|                           |                          |
+| - Searches for free seats |  - Economy               |
+|   when given a set of     |                          |
+|   user preferences        |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
+|                           |                          |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+
++––––––––––––––––––––––––––––––––––––––––––––––––––––––+
+|                     FirstClass                       |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+|                           |                          |
+| - Holds the array of      |                          |
+|   booleans that represent |                          |
+|   the first-class seats   |                          |
+|                           |                          |
+| - Sets first-class seats  |                          |
+|   as occupied             |                          |
+|                           |                          |
+| - Sends the status of     |                          |
+|   first-class seats to    |                          |
+|   the rest of the program |                          |
+|                           |                          |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+
++––––––––––––––––––––––––––––––––––––––––––––––––––––––+
+|                        Economy                       |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+
+|                           |                          |
+| - Holds the array of      |                          |
+|   booleans that represent |                          |
+|   the economy seats       |                          |
+|                           |                          |
+| - Sets economy seats      |                          |
+|   as occupied             |                          |
+|                           |                          |
+| - Sends the status of     |                          |
+|   the economy seats to    |                          |
+|   the rest of the program |                          |
+|                           |                          |
++–––––––––––––––––––––––––––+––––––––––––––––––––––––––+

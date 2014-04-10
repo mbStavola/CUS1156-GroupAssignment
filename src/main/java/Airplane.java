@@ -42,8 +42,4 @@ public class Airplane {
         }
         return false;
     }
-
-    public void updateSeatVisualizer() {
-
-    }
 }
